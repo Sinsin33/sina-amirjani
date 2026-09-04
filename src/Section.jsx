@@ -20,9 +20,6 @@ const Section = forwardRef(function Section(
         BG[index % BG.length]
       }`}
     >
-      <span className="text-xs uppercase tracking-[0.2em] text-neutral-400">
-        {label}
-      </span>
       {/* per-section content goes here, passed as children from App */}
       {children}
     </section>
