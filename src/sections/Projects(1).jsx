@@ -10,54 +10,17 @@ import "swiper/css/pagination";
 const PROJECTS = [
   {
     id: 1,
-    title: "پنل رژیم درمانی",
+    title: "1",
     description:
-      "پنل ادمین برای یک متخصص تغذیه برای مدیریت مراجعین و محاسبه کالری",
-    image: "/images/diet app/Slide1.PNG",
+      "اپلیکیشن تحت وب برای محاسبه کالری و تنظیم برنامه‌های غذایی تخصصی.",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
     images: [
-      "./images/diet app/Slide1.PNG",
-      "./images/diet app/Slide2.PNG",
-      "./images/diet app/Slide3.PNG",
-      "./images/diet app/Slide4.PNG",
-      "./images/diet app/Slide5.PNG",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1000&auto=format&fit=crop",
     ],
-
     techs: ["React", "Next.js", "Tailwind CSS", "PostgreSQL"],
-
-    technologies: [
-      {
-        name: "React",
-        img: "./images/techs/react.png",
-      },
-      {
-        name: "React Router",
-        img: "./images/techs/react-router.png",
-      },
-      {
-        name: "MUI",
-        img: "./images/techs/mui.png",
-      },
-      {
-        name: "Tailwind CSS",
-        img: "/images/techs/tailwindcss.png",
-      },
-      {
-        name: "Lucide React",
-        img: "./images/techs/lucide-react.png",
-      },
-      {
-        name: "React Hook Form",
-        img: "./images/techs/react-hook-form.png",
-      },
-      {
-        name: "Recharts",
-        img: "./images/techs/recharts.png",
-      },
-      {
-        name: "Zod",
-        img: "./images/techs/zod.png",
-      },
-    ],
   },
   {
     id: 2,
@@ -130,168 +93,118 @@ const PROJECTS = [
 const PortfolioModal = ({ project, activeImage, onImageChange, onClose }) => {
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
+      if (event.key === "Escape") onClose();
     };
 
-    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose]);
 
-  if (!project) return null;
-
-  const imagesList =
-    project.images && project.images.length > 0
-      ? project.images
-      : [project.image];
-  const currentImage = imagesList[activeImage] || imagesList[0];
-
   return createPortal(
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 p-3 sm:p-6 backdrop-blur-md"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm sm:p-6"
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          onClose();
-        }
+        if (event.target === event.currentTarget) onClose();
       }}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={`project-${project.id}-title`}
-        /* data-lenis-prevent prevents Lenis from hijacking scroll inside the modal */
-        data-lenis-prevent
-        className="relative flex max-h-[88vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0c0c0c] shadow-2xl"
-        onMouseDown={(event) => {
-          event.stopPropagation();
-        }}
+        className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#101010] shadow-2xl"
       >
-        {/* STICKY MODAL HEADER */}
-        <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-[#0c0c0c]/90 px-4 py-3 backdrop-blur-md sm:px-6">
-          <div className="flex items-center gap-3">
-            <span
-              dir="ltr"
-              className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-mono tracking-wider text-white/50"
-            >
-              #{String(project.id).padStart(2, "0")}
-            </span>
+        {/* CLOSE BUTTON */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="بستن"
+          className="absolute left-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 text-lg text-white/70 backdrop-blur-md transition hover:bg-white/10 hover:text-white"
+        >
+          ×
+        </button>
+
+        {/* ROW 1: MAIN IMAGE + OTHER IMAGES */}
+        <div className="grid min-h-0 grid-cols-1 gap-3 border-b border-white/10 p-3 sm:grid-cols-[minmax(0,1fr)_120px] sm:p-4 md:grid-cols-[minmax(0,1fr)_150px]">
+          <div className="relative min-h-[240px] overflow-hidden rounded-xl bg-black sm:min-h-[320px] md:min-h-[410px]">
+            <img
+              src={project.images[activeImage]}
+              alt={`${project.title} - تصویر ${activeImage + 1}`}
+              className="h-full w-full object-cover object-top"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          </div>
+
+          <div className="flex min-w-0 flex-row gap-2 overflow-x-auto sm:flex-col sm:overflow-x-hidden sm:overflow-y-auto">
+            {project.images.map((image, index) => (
+              <button
+                key={`${project.id}-${image}`}
+                type="button"
+                onClick={() => onImageChange(index)}
+                className={`group relative aspect-video shrink-0 overflow-hidden rounded-lg border transition sm:aspect-[4/3] ${
+                  index === activeImage
+                    ? "border-white/70"
+                    : "border-white/10 hover:border-white/30"
+                }`}
+                aria-label={`نمایش تصویر ${index + 1}`}
+              >
+                <img
+                  src={image}
+                  alt=""
+                  className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                />
+                {index === activeImage && (
+                  <span className="absolute inset-0 bg-white/10" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ROW 2: DESCRIPTION */}
+        <div className="border-b border-white/10 px-4 py-4 sm:px-6 sm:py-5">
+          <div className="mb-2 flex items-center justify-between gap-4">
             <h3
               id={`project-${project.id}-title`}
-              className="text-base font-medium text-white sm:text-lg"
+              className="text-base font-medium text-white sm:text-xl"
             >
               {project.title}
             </h3>
+            <span
+              dir="ltr"
+              className="text-[9px] uppercase tracking-[0.2em] text-white/25 sm:text-[10px]"
+            >
+              Project {String(project.id).padStart(2, "0")}
+            </span>
           </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="بستن"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm text-white/60 transition hover:border-white/20 hover:bg-white/10 hover:text-white"
-          >
-            ✕
-          </button>
+          <p className="max-w-3xl text-xs leading-6 text-white/55 sm:text-sm sm:leading-7">
+            {project.description}
+          </p>
         </div>
 
-        {/* SCROLLABLE MODAL CONTENT */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-5 sm:p-6 sm:space-y-6">
-          {/* IMAGE PREVIEW & THUMBNAILS */}
-          <div className="space-y-3">
-            <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-black/60">
-              <img
-                src={currentImage}
-                alt={`${project.title} - image ${activeImage + 1}`}
-                className="h-full w-full object-cover object-top transition-all duration-300"
-              />
-            </div>
-
-            {/* THUMBNAILS */}
-            {imagesList.length > 1 && (
-              <div className="flex min-w-0 gap-2 overflow-x-auto pb-1">
-                {imagesList.map((image, index) => (
-                  <button
-                    key={`${project.id}-thumb-${index}`}
-                    type="button"
-                    onClick={() => onImageChange(index)}
-                    className={`relative h-14 w-24 shrink-0 overflow-hidden rounded-lg border transition ${
-                      index === activeImage
-                        ? "border-white opacity-100 ring-2 ring-white/20"
-                        : "border-white/10 opacity-40 hover:opacity-80"
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
+        {/* ROW 3: TECHNOLOGIES */}
+        <div className="px-4 py-4 sm:px-6 sm:py-5">
+          <div className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/30 sm:text-[10px]">
+            Technologies
           </div>
-
-          {/* DESCRIPTION SECTION */}
-          <div className="space-y-2 border-t border-white/10 pt-4">
-            <h4 className="text-[10px] uppercase tracking-wider text-white/40">
-              توضیحات پروژه
-            </h4>
-            <p className="text-xs leading-relaxed text-white/70 sm:text-sm sm:leading-7">
-              {project.description}
-            </p>
-          </div>
-
-          {/* COMPACT TECHNOLOGIES SECTION */}
-          <div className="space-y-2 border-t border-white/10 pt-4">
-            <h4
-              dir="ltr"
-              className="text-[10px] uppercase tracking-[0.2em] text-white/40"
-            >
-              Technologies & Tools
-            </h4>
-
-            {project.technologies && project.technologies.length > 0 ? (
-              <div dir="ltr" className="flex flex-wrap gap-2 pt-1">
-                {project.technologies.map((tech) => (
-                  <div
-                    key={tech.name}
-                    className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 transition hover:border-white/20 hover:bg-white/[0.06]"
-                  >
-                    <img
-                      src={tech.img}
-                      alt={tech.name}
-                      className="h-4 w-4 object-contain opacity-80"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                    <span className="text-xs text-white/80">{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div dir="ltr" className="flex flex-wrap gap-1.5 pt-1">
-                {project.techs?.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs text-white/70"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
+          <div dir="ltr" className="flex flex-wrap gap-2">
+            {project.techs.map((tech) => (
+              <span
+                key={tech}
+                className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] text-white/70 sm:text-xs"
+              >
+                {tech}
+              </span>
+            ))}
           </div>
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
 
@@ -318,7 +231,6 @@ const Portfolio = () => {
       {/* BACKGROUND EFFECTS */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute right-[10%] top-[20%] h-[300px] w-[300px] rounded-full bg-white/[0.02] blur-[100px]" />
-
         <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] [background-size:60px_60px]" />
       </div>
 
@@ -332,7 +244,6 @@ const Portfolio = () => {
             <span className="h-px w-5 bg-white/30 sm:w-8" />
             Selected Works
           </div>
-
           <span
             dir="ltr"
             className="text-[9px] tracking-[0.2em] text-white/20 sm:text-[10px]"
@@ -348,7 +259,7 @@ const Portfolio = () => {
           </h2>
         </div>
 
-        {/* SLIDER */}
+        {/* SLIDER CONTAINER - FITS REMAINING SPACE EXACTLY */}
         <div className="flex min-h-0 w-full flex-1 items-center justify-center py-2">
           <Swiper
             dir="rtl"
@@ -364,10 +275,7 @@ const Portfolio = () => {
               modifier: 1,
               slideShadows: false,
             }}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
+            pagination={{ clickable: true, dynamicBullets: true }}
             modules={[EffectCoverflow, Pagination]}
             className="portfolio-swiper h-full w-full !pb-8"
           >
@@ -381,14 +289,13 @@ const Portfolio = () => {
                   onClick={() => openProject(project)}
                   className="group relative flex max-h-full w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-right backdrop-blur-md transition duration-500 hover:border-white/20 hover:bg-white/[0.05] sm:p-4"
                 >
-                  {/* PROJECT IMAGE */}
+                  {/* FIXED IMAGE HEIGHT */}
                   <div className="relative h-[150px] w-full overflow-hidden rounded-xl bg-black/50 sm:h-[190px] lg:h-[220px]">
                     <img
                       src={project.image}
                       alt={project.title}
                       className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                     />
-
                     <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/80 via-transparent to-transparent opacity-60" />
 
                     <span className="absolute bottom-3 left-3 rounded-full border border-white/10 bg-black/50 px-2.5 py-1 text-[9px] text-white/70 backdrop-blur-md sm:text-[10px]">
@@ -411,7 +318,6 @@ const Portfolio = () => {
                       <span className="text-[9px] uppercase tracking-wider text-white/30">
                         Technologies
                       </span>
-
                       <div dir="ltr" className="flex flex-wrap gap-1">
                         {project.techs.map((tech) => (
                           <span
@@ -431,7 +337,6 @@ const Portfolio = () => {
         </div>
       </div>
 
-      {/* MODAL */}
       {selectedProject && (
         <PortfolioModal
           project={selectedProject}
