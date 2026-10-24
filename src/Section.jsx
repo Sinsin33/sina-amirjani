@@ -8,10 +8,7 @@ const BG = [
   "bg-neutral-950",
 ];
 
-const Section = forwardRef(function Section(
-  { id, label, index, children },
-  ref
-) {
+const Section = forwardRef(function Section({ id, index, children }, ref) {
   return (
     <section
       id={id}

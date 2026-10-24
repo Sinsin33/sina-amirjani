@@ -113,7 +113,7 @@ export default function App() {
     <>
       <Navbar sections={SECTIONS} activeIndex={activeIndex} />
 
-      <main ref={containerRef} className="relative">
+      <main ref={containerRef} className="relative  pb-[1svh]">
         {SECTIONS.map((section, index) => (
           <Section
             key={section.id}
