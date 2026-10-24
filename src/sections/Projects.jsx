@@ -370,7 +370,7 @@ const PortfolioModal = ({ project, activeImage, onImageChange, onClose }) => {
             </p>
           </div>
 
-          {/* GITHUB (only if the project has a link) */}
+          {/* GITHUB (only if the project has a link) d */}
           {project.projectLink && (
             <div dir="ltr" className="space-y-2 border-t border-white/10 pt-4">
               <h4 className="text-[10px] uppercase tracking-[0.2em] text-white/40">
